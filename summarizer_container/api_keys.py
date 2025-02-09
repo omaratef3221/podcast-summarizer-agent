@@ -1,0 +1,2 @@
+serpapi_key = '094dfd9abc025aead783b685f29921d2c6dcfb8b0159d2bd900ee985c89bfbfd'
+togetherapi_key = "104cde6eaa2ba8e2d8fe504a4fe4b10670351ad1f03d26c60bba12f68d8dbd09"
