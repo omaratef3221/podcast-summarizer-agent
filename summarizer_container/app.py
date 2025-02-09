@@ -25,7 +25,9 @@ def podcast_agent():
     else:
         return {"error": "Invalid flag"}
 
-    
+@app.route('/healthcheck', methods=['GET'])
+def healthcheck():
+    return jsonify({"status": "healthy"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
