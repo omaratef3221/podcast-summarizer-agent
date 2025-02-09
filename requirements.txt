@@ -1,5 +1,0 @@
-google-search-results
-serpapi
-together
-flask
-youtube_transcript_api
