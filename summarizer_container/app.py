@@ -14,7 +14,7 @@ def podcast_agent():
 
         search_results = podcast_obj.search()
         if search_results:
-            all_text = podcast_obj.get_transcript(search_results[1].split('=')[1])
+            all_text = podcast_obj.get_transcript_xml(search_results[1])
             summary = llm_obj.summarize_podcast(all_text)
             f = open("podcast_details.md", "a")
             f.write(summary.choices[0].message.content.replace('Output Format:', search_results[0]))
