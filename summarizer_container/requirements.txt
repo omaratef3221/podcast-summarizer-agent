@@ -3,3 +3,4 @@ serpapi
 together
 flask
 youtube_transcript_api
+pymongo[srv]==3.12
