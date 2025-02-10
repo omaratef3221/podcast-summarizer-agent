@@ -1,4 +1,3 @@
-```markdown
 # 🎙️ Podcast Summarizer Agent
 
 ## 🚀 Overview
@@ -67,4 +66,3 @@ The API returns a **200 Success** response, and summaries are stored in **MongoD
 
 ---
 🎯 This project aims to streamline podcast knowledge extraction and make insightful content easily accessible.
-```
