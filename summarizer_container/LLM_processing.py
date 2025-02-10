@@ -30,5 +30,5 @@ class llm_processor:
             mycollection = mydatabase.podcast_summaries
             mycollection.insert_one(data) 
         except Exception as e:
-            print(e)
+            print(e, flush=True)
 
