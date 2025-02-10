@@ -18,7 +18,7 @@ class llm_processor:
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=500,
                 temperature=0.7,
-                top_p=0.7,
+                top_p=0.9,
                 top_k=100,
             )
         return response
