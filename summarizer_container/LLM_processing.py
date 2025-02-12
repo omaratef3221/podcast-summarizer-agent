@@ -1,8 +1,6 @@
 from prompt_builder import build_prompt
-from api_keys import togetherapi_key, mongodb_uri
+from api_keys import togetherapi_key
 from together import Together
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
 import os
 
 client = Together(api_key=togetherapi_key)  
@@ -23,12 +21,4 @@ class llm_processor:
             )
         return response
     
-    def insert_to_mongodb(self, data):
-        try:
-            client = MongoClient(mongodb_uri , server_api=ServerApi('1'))
-            mydatabase = client.podcast_agent_results
-            mycollection = mydatabase.podcast_summaries
-            mycollection.insert_one(data) 
-        except Exception as e:
-            print(e, flush=True)
 

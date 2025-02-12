@@ -7,8 +7,13 @@ import xml.etree.ElementTree as ET
 
 
 class get_podcast_data:
-    def __init__(self, search_query = "Super Data Science: ML & AI Podcast with Jon Krohn latest", num_results=1):
-        self.search_query = search_query
+    def __init__(self, search_query = "Super Data Science: ML & AI Podcast with Jon Krohn podcast", episode_id = None, num_results=1):
+        if episode_id:
+            self.episode_id = episode_id 
+            self.search_query = search_query+ " Episode " + str(episode_id+1)
+        else:  
+            self.search_query = search_query
+
         self.num_results = num_results
         
     def search(self):
@@ -21,20 +26,30 @@ class get_podcast_data:
         search = GoogleSearch(params)
         results = search.get_dict()
         for result in results["video_results"]:
-            if result["title"][0:2].isnumeric() and len(result["length"]) >= 5:
-                title = result["title"]
-                link =result["link"]
-                length = result["length"]
-                break
+            if "SDS" in result["title"]:
+                if int(result["title"].split(":")[0].split("SDS ")[1]) == self.episode_id:
+                    continue
+                elif int(result["title"].split(":")[0].split("SDS ")[1]) >= self.episode_id:
+                    title = result["title"]
+                    link =result["link"]
+                    length = result["length"]
+                    break
+            else:
+                try:
+                    if int(result["title"].split(":")[0]) == self.episode_id:
+                        continue
+                    elif int(result["title"].split(":")[0]) >= self.episode_id:
+                        title = result["title"]
+                        link =result["link"]
+                        length = result["length"]
+                        break
+                except:
+                    pass
+                title = ''
+                continue
         if len(title) == 0:
             return None
         return title, link, length
-    
-    def get_transcript_YTT_API(self, youtube_id):
-        transcriptions = YouTubeTranscriptApi.get_transcript(youtube_id, proxies={"https": "http://localhost:5001"})
-        all_text = [x["text"] for x in transcriptions]
-        all_text = ' '.join(all_text)
-        return all_text
     
     def get_transcript_xml(self, youtube_link):
         response = requests.get(youtube_link)
