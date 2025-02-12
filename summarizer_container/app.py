@@ -16,7 +16,6 @@ def podcast_agent():
         cursor = db.get_latest_podcast()
         latest_record = list(cursor)[0]
         latest_id = latest_record["epidose_Id"]
-        latest_id = 857
         podcast_obj= get_podcast_data(episode_id= int(latest_id))
         search_results = podcast_obj.search()
         if search_results:
