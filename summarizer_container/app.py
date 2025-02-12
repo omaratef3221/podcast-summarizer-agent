@@ -37,10 +37,27 @@ def podcast_agent():
             record["database_record_date"]= str(record["database_record_date"])
             return record
         else:
-            latest_record["is_new"] = False
-            latest_record["message"] = "This podcast is already existing in the database and SDS didn't release a new episode"
-            latest_record.pop("_id")
-            return latest_record
+            #latest_record["is_new"] = False
+            #latest_record["message"] = "This podcast is already existing in the database and SDS didn't release a new episode"
+            #latest_record.pop("_id")
+            #return latest_record
+            all_text = podcast_obj.get_transcript_xml(search_results[1])
+            summary = llm_obj.summarize_podcast(all_text)
+            
+            record = {
+                "epidose_Id": search_results[0].split(":")[0],
+                "title": search_results[0],
+                "link": search_results[1],
+                "length": search_results[2],
+                "summary": summary.choices[0].message.content.replace('Output Format:', search_results[0]),
+                "database_record_date": datetime.datetime.now(),
+                "is_new": True,
+                "message": "Podcast summary successfully generated and stored in Mongo Database"
+            }
+            db.insert_to_mongodb(record)
+            record.pop("_id")
+            record["database_record_date"]= str(record["database_record_date"])
+            return record
     else:
         return {"error": "Invalid flag"}
 
