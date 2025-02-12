@@ -19,6 +19,7 @@ def podcast_agent():
             summary = llm_obj.summarize_podcast(all_text)
             
             record = {
+                "Response": 200,
                 "title": search_results[0],
                 "link": search_results[1],
                 "length": search_results[2],
@@ -27,7 +28,7 @@ def podcast_agent():
             }
             
             llm_obj.insert_to_mongodb(record)
-            return {"Response": 200}
+            return record
         else:
             return {"error": "No valid podcast found"}
     else:
