@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from get_transcripts import get_podcast_data
 from LLM_processing import llm_processor
 import datetime
+import json
 
 app = Flask(__name__)
 
@@ -19,15 +20,15 @@ def podcast_agent():
             summary = llm_obj.summarize_podcast(all_text)
             
             record = {
-                "Response": 200,
                 "title": search_results[0],
                 "link": search_results[1],
                 "length": search_results[2],
                 "summary": summary.choices[0].message.content.replace('Output Format:', search_results[0]),
                 "released": datetime.datetime.now()
             }
-            
             llm_obj.insert_to_mongodb(record)
+            record.pop("_id")
+            record["released"]= str(record["released"])
             return record
         else:
             return {"error": "No valid podcast found"}
