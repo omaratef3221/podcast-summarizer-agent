@@ -6,7 +6,7 @@ import os
 client = Together(api_key=togetherapi_key)  
 
 class llm_processor:
-    def __init__(self, model_name = "meta-llama/Llama-3.3-70B-Instruct-Turbo"):
+    def __init__(self, model_name = "Qwen/Qwen2.5-72B-Instruct-Turbo"):
         self.model_name = model_name
 
     def summarize_podcast(self, podcast_text):
