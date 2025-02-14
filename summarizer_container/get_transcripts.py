@@ -51,6 +51,14 @@ class get_podcast_data:
             return None
         return title, link, length
     
+    def get_transcript(self, youtube_id):
+        transcriptions = YouTubeTranscriptApi.get_transcript(youtube_id,
+                                                              proxies={'https': 'https://podcast-summarizer-agent.onrender.com'}
+                                                              )
+        all_text = [x["text"] for x in transcriptions]
+        all_text = ' '.join(all_text)
+        return all_text
+    
     def get_transcript_xml(self, youtube_link):
         response = requests.get(youtube_link)
 
