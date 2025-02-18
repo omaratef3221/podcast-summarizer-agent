@@ -37,7 +37,7 @@ if st.button("Get latest Podcast"):
         st.write(f"**Title:** {record['title']}")
         st.write(f"**Episode ID:** {record['epidose_Id']}")
         st.write(f"**Length:** {record['length']}")
-        st.write(f"**Database Record Date:** {record['database_record_date'].strftime('%Y-%m-%d %H:%M:%S')}")
+        st.write(f"**Database Record Date:** {record['database_record_date']}")
         st.write(f"**New Record:** {'✅ Yes' if record['is_new'] else '❌ No'}")
         st.write(f"**Message:** {record['message']}")
 
@@ -54,7 +54,7 @@ if st.button("Get latest Podcast"):
         st.write(f"**Title:** {latest_record['title']}")
         st.write(f"**Episode ID:** {latest_record['epidose_Id']}")
         st.write(f"**Length:** {latest_record['length']}")
-        st.write(f"**Database Record Date:** {latest_record['database_record_date'].strftime('%Y-%m-%d %H:%M:%S')}")
+        st.write(f"**Database Record Date:** {latest_record['database_record_date']}")
         st.write(f"**New Record:** {'✅ Yes' if latest_record['is_new'] else '❌ No'}")
         st.write(f"**Message:** {latest_record['message']}")
 
