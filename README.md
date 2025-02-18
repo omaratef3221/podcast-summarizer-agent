@@ -50,6 +50,9 @@ This app can be deployed on **Render** (free hosting) or run locally.
 Currently, the application is deployed on **Render** at:  
 🔗 **[Podcast Summarizer Agent](https://podcast-summarizer-agent.onrender.com/)**  
 
+Also, the application is deployed on **Streamlit** at:  
+🔗 **[Podcast Summarizer Agent](https://podcast-summarizer-agent-gzyg9mtctuo38pcavsmwvb.streamlit.app/)**  
+
 The API returns a **200 Success** response, and summaries are stored in **MongoDB**.
 
 ## 💰 Resource & Cost Breakdown
