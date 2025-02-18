@@ -58,7 +58,11 @@ class get_podcast_data:
         return all_text
     
     def get_transcript_xml(self, youtube_link):
-        response = requests.get(youtube_link)
+        headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
+
+        response = requests.get(youtube_link, headers=headers)
 
         if response.status_code != 200:
             print(f"Failed to fetch the page: {response.status_code}")
