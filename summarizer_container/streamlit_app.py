@@ -1,67 +1,28 @@
+from dotenv import load_dotenv
+load_dotenv()  
+
 import streamlit as st
-from get_transcripts import get_podcast_data
-from LLM_processing import llm_processor
-from mongo_functions import database_object
-import datetime
+from langchain_core.messages import HumanMessage
+from build_agent import graph
 
-st.title("Podcast Agent")
+st.set_page_config(page_title="Podcast Agent", page_icon="🎙️")
+st.markdown("## 🎧 Podcast Agent")
+st.markdown("This assistant summarizes podcast transcripts and answers related queries.")
 
-# Button to run the code
-if st.button("Get latest Podcast"):
-    db = database_object()
-    llm_obj = llm_processor()
-    cursor = db.get_latest_podcast()
-    latest_record = list(cursor)[0]
-    latest_id = latest_record["epidose_Id"]
-    podcast_obj= get_podcast_data(episode_id= int(latest_id))
-    search_results = podcast_obj.search()
-    if search_results:
-        all_text = podcast_obj.get_transcript_xml(search_results[1])
-        summary = llm_obj.summarize_podcast(all_text)
-        
-        record = {
-            "epidose_Id": search_results[0].split(":")[0],
-            "title": search_results[0],
-            "link": search_results[1],
-            "length": search_results[2],
-            "summary": summary.choices[0].message.content.replace('Output Format:', search_results[0]),
-            "database_record_date": datetime.datetime.now(),
-            "is_new": True,
-            "message": "Podcast summary successfully generated and stored in Mongo Database"
-        }
-        db.insert_to_mongodb(record)
-        record.pop("_id")
-        record["database_record_date"]= str(record["database_record_date"])
-        st.title("Podcast Summary")
+text = st.text_input("📝 Enter your message:", placeholder="Paste your podcast transcript or question here")
 
-        st.write(f"**Title:** {record['title']}")
-        st.write(f"**Episode ID:** {record['epidose_Id']}")
-        st.write(f"**Length:** {record['length']}")
-        st.write(f"**Database Record Date:** {record['database_record_date']}")
-        st.write(f"**New Record:** {'✅ Yes' if record['is_new'] else '❌ No'}")
-        st.write(f"**Message:** {record['message']}")
-
-        # Display the summary as markdown
-        st.markdown("### Summary")
-        st.markdown(record["summary"])
-
-        # Provide a clickable link
-        st.markdown(f"[Listen to the episode]({record['link']})")
+if st.button("🚀 Submit"):
+    if not text.strip():
+        st.warning("Please enter a message before submitting.")
     else:
-        latest_record["is_new"] = False
-        latest_record["message"] = "This podcast is already existing in the database and SDS didn't release a new episode"
-        latest_record.pop("_id")
-        st.write(f"**Title:** {latest_record['title']}")
-        st.write(f"**Episode ID:** {latest_record['epidose_Id']}")
-        st.write(f"**Length:** {latest_record['length']}")
-        st.write(f"**Database Record Date:** {latest_record['database_record_date']}")
-        st.write(f"**New Record:** {'✅ Yes' if latest_record['is_new'] else '❌ No'}")
-        st.write(f"**Message:** {latest_record['message']}")
+        with st.spinner("Analyzing your message and fetching insights..."):
+            messages = [HumanMessage(content=text)]
+            events = graph.invoke({'messages': messages})
 
-        # Display the summary as markdown
-        st.markdown("### Summary")
-        st.markdown(latest_record["summary"])
+        st.success("✅ Response generated and sent by email!")
 
-        # Provide a clickable link
-        st.markdown(f"[Listen to the episode]({latest_record['link']})")
-    
+        with st.expander("📤 Agent Response", expanded=True):
+            st.markdown(events["messages"][-1].content, unsafe_allow_html=True)
+            st.markdown(events["messages"][-2].content, unsafe_allow_html=True)
+
+        st.info("Tip: You can submit another message or paste a different podcast transcript to explore more.")
