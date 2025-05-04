@@ -3,6 +3,27 @@
 ## 🚀 Overview
 **Podcast Summarizer Agent** is an AI-powered application that automatically retrieves, transcribes, and summarizes podcast episodes. It uses a combination of LangChain, TogetherAI, and MongoDB to create an intelligent summarization pipeline.
 
+## 🏗️ Architecture
+The application uses LangGraph to create a sophisticated agent workflow. Here's how the components interact:
+
+![Agent Workflow](output.png)
+
+### Graph Components
+1. **Input Handler**: Receives user queries and initializes the conversation
+2. **Agent Node**: Processes the input using TogetherAI and determines the next action
+3. **Tool Node**: Executes specific tools like:
+   - YouTube search
+   - Transcript retrieval
+   - Summary generation
+   - Database operations
+4. **Conditional Routing**: Determines whether to continue processing or return a final response
+
+The graph architecture allows for:
+- Dynamic tool selection based on context
+- Seamless integration of multiple AI models
+- Efficient handling of long-running tasks
+- Error recovery and retry mechanisms
+
 ## ✨ Features
 - 🔍 **Automated Retrieval**: Searches for podcast episodes using SerpAPI
 - 📝 **Transcription & Summarization**: Extracts captions using YouTube Transcript API and summarizes content using TogetherAI
