@@ -9,7 +9,8 @@ from get_transcripts_tools import tools
 from langgraph.prebuilt import ToolNode
 from langgraph.prebuilt import tools_condition 
 from prompt import system_message
-
+import os
+os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 llm = ChatOpenAI(
     model="o4-mini",
     temperature=1,
