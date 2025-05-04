@@ -1,71 +1,100 @@
 # 🎙️ Podcast Summarizer Agent
 
 ## 🚀 Overview
-**Podcast Summarizer Agent** is an AI-powered application that automatically retrieves, transcribes, and summarizes the latest episodes of the *Super Data Science Podcast* from YouTube. It extracts key resources from each episode and stores them in a **MongoDB** database.
+**Podcast Summarizer Agent** is an AI-powered application that automatically retrieves, transcribes, and summarizes podcast episodes. It uses a combination of LangChain, TogetherAI, and MongoDB to create an intelligent summarization pipeline.
 
 ## ✨ Features
-- 🔍 **Automated Retrieval**: Searches for the latest *Super Data Science Podcast* episodes on YouTube.
-- 📝 **Transcription & Summarization**: Extracts captions and summarizes key points using an AI model.
-- 🔗 **Resource Extraction**: Identifies and stores relevant links and references from the episode.
-- 🗄️ **Storage in MongoDB**: Saves summaries, podcast titles, durations, and YouTube links in a NoSQL database.
-- ⏳ **Scheduled Execution**: Can run automatically at set intervals or be triggered via API.
+- 🔍 **Automated Retrieval**: Searches for podcast episodes using SerpAPI
+- 📝 **Transcription & Summarization**: Extracts captions using YouTube Transcript API and summarizes content using TogetherAI
+- 🗄️ **MongoDB Integration**: Stores summaries and metadata in a NoSQL database
+- 🤖 **LangChain Integration**: Uses LangChain for building the agent workflow
+- 🌐 **Dual Interface**: Available both as a Flask API and Streamlit web application
 
 ## 🛠️ Tech Stack
 - 🐍 **Python** - Backend processing
-- 🍃 **MongoDB** - NoSQL database for storing podcast summaries
-- 🤖 **TogetherAPI** - AI model hosting (LLaMA for summarization)
-- 🔎 **SeraAPI** - YouTube search functionality
+- 🤖 **LangChain** - Agent workflow and orchestration
+- 🍃 **MongoDB** - NoSQL database for storing summaries
+- 🔥 **TogetherAI** - AI model for summarization
+- 🔍 **SerpAPI** - YouTube search functionality
+- 🎥 **YouTube Transcript API** - Caption extraction
+- 🌐 **Flask** - REST API interface
+- 📊 **Streamlit** - Web interface
 
 ## 📂 Project Structure
-The application is structured within the `summarizer_container` directory:
-
 ```
 summarizer_container/
-│── 🔑 api_keys.py          # Reads API keys from environment variables
-│── 🌐 app.py               # Flask REST API for running the app
-│── 🐳 Dockerfile           # Configuration for containerization
-│── 📜 requirements.txt     # Dependencies list
-│── 🎥 get_transcripts.py   # Handles YouTube search and transcription retrieval
-│── 🤖 LLM_processing.py    # Summarization and database insertion using LLaMA
-│── ✍️ prompt_builder.py    # Defines prompts for AI summarization
+│── app.py               # Flask REST API implementation
+│── build_agent.py       # LangChain agent configuration
+│── get_transcripts_tools.py  # YouTube search and transcript retrieval
+│── prompt.py           # Prompt templates and configurations
+│── streamlit_app.py    # Streamlit web interface
+│── mongo_functions.py  # MongoDB operations
+│── env_variables.py    # Environment variable management
+│── requirements.txt    # Python dependencies
+│── Dockerfile         # Container configuration
 ```
 
-## 🚀 Deployment & Execution
-This app can be deployed on **Render** (free hosting) or run locally.  
-### 🏠 Running Locally
-1. Install dependencies:  
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.8+
+- MongoDB instance
+- API keys for:
+  - TogetherAI
+  - SerpAPI
+  - MongoDB
+
+### Installation
+1. Clone the repository
+2. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-2. Run the Flask API:  
-   ```bash
-   flask run -h 0.0.0.0 -p 5001
-   ```
-3. Trigger the summarization process via API request:  
-   ```bash
-   curl --location 'http://localhost:5001/podcast_agent?flag=1'
-   ```
+3. Set up environment variables in `.env` file
 
-### 🌍 Live Deployment
-Currently, the application is deployed on **Render** at:  
-🔗 **[Podcast Summarizer Agent](https://podcast-summarizer-agent.onrender.com/)**  
+### Running the Application
 
-Also, the application is deployed on **Streamlit** at:  
-🔗 **[Podcast Summarizer Agent](https://podcast-summarizer-agent-gzyg9mtctuo38pcavsmwvb.streamlit.app/)**  
+#### Flask API
+```bash
+python app.py
+```
+The API will be available at `http://localhost:5001`
 
-The API returns a **200 Success** response, and summaries are stored in **MongoDB**.
+#### Streamlit Interface
+```bash
+streamlit run streamlit_app.py
+```
+
+### Docker Deployment
+```bash
+docker build -t podcast-summarizer .
+docker run -p 5001:5001 podcast-summarizer
+```
+
+## 🔗 API Endpoints
+
+### `/podcast_agent`
+- **Method**: GET
+- **Query Parameters**: 
+  - `message`: The input message for the agent
+- **Response**: JSON containing the agent's response
+
+### `/healthcheck`
+- **Method**: GET
+- **Response**: JSON with application status
 
 ## 💰 Resource & Cost Breakdown
 | Resource     | Cost               | Purpose                                         |
 |-------------|--------------------|-------------------------------------------------|
-| ☁️ **Render**  | Free               | Hosting the web application                     |
-| 🤖 **TogetherAPI** | $0.88/1M tokens | Hosting the AI summarization model              |
-| 🍃 **MongoDB** | Free (512MB tier)  | Storing summaries, titles, durations, and links |
-| 🔍 **SeraAPI** | Free (100 searches/month) | Searching for podcasts on YouTube |
+| 🤖 **TogetherAI** | Pay-per-use | AI model for summarization |
+| 🍃 **MongoDB** | Free tier available | Database storage |
+| 🔍 **SerpAPI** | Pay-per-use | YouTube search functionality |
 
-## 🔮 Future Enhancements (Work in Progress)
-- 📚 **RAG Database with Pinecone**: Implementing a **retrieval-augmented generation (RAG)** system for querying all past podcast summaries.
-- 📱 **Mobile App (Flutter)**: Developing a mobile app that sends weekly notifications about new episodes.
+## 🔮 Future Enhancements
+- Enhanced error handling and retry mechanisms
+- Improved prompt engineering for better summaries
+- Additional podcast sources beyond YouTube
+- Caching layer for frequently accessed summaries
 
 ---
-🎯 This project aims to streamline podcast knowledge extraction and make insightful content easily accessible.
+🎯 This project aims to make podcast content more accessible through AI-powered summarization.
