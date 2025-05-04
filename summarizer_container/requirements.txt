@@ -9,6 +9,7 @@ langchain==0.3.25
 langchain-core==0.3.58
 langchain-openai==0.3.16
 langgraph==0.4.1
+langchain-community==0.3.23
 markdown2==2.4.12
 google-auth-oauthlib==1.2.0
 google-auth-httplib2==0.2.0
