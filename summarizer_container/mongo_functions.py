@@ -1,10 +1,10 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from api_keys import mongodb_uri
+import os
 
 class database_object:
     def __init__(self):
-        self.client = MongoClient(mongodb_uri , server_api=ServerApi('1'))
+        self.client = MongoClient(os.getenv('mongodb_uri') , server_api=ServerApi('1'))
 
     def get_latest_podcast(self):
         mydatabase = self.client.podcast_agent_results
