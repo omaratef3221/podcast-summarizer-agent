@@ -7,7 +7,8 @@ from mongo_functions import database_object
 import datetime
 import json
 from langchain_core.messages import HumanMessage
-
+import uvicorn
+import os
 
 app = Flask(__name__)
 
@@ -26,4 +27,5 @@ def healthcheck():
     return jsonify({"status": "healthy"}), 200
 
 if __name__ == '__main__':
-    app.run(port=5001)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("app:app", host="0.0.0.0", port=port, reload=False)
