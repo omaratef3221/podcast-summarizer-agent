@@ -3,8 +3,6 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone
 import os
-from dotenv import load_dotenv
-load_dotenv()
 
 # Init Pinecone
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
@@ -47,6 +45,3 @@ def retrieve_and_respond(query: str, llm, top_k: int = 5):
     final_prompt = prompt_template.format(context=combined_context, question=query)
     return llm.invoke(final_prompt)
 
-# Run
-results = retrieve_and_respond("what are the recommended logging tools?", llm, top_k=2)
-print(results.content)

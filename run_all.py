@@ -16,7 +16,7 @@ def generate(args):
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument('--message', type=str, default= "Superdatascience")
+    parser.add_argument('--message', type=str, default= "Lex Fridman")
     args = parser.parse_args()
     events = generate(args)
     latest_podcast = get_latest_podcast()
