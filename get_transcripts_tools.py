@@ -8,6 +8,8 @@ import markdown2
 from langchain_community.tools.gmail.utils import build_resource_service, get_gmail_credentials
 from google.oauth2.credentials import Credentials
 import os
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
 creds = Credentials(
     token=os.getenv("GOOGLE_TOKEN"),
@@ -99,6 +101,61 @@ def send_email(message: str, subject: str) -> None:
     })
     return None
 
+def insert_to_mongodb(
+    episode_id: str,
+    podcast_title: str,
+    podcast_description: str,
+    podcast_url: str,
+    podcast_summary: str,
+    length: str = None,
+    is_new: bool = True
+):
+    """
+    Insert a structured podcast summary into MongoDB.
 
-tools = [search, transcribe, get_today_date, send_email]
+    Args:
+        episode_id (str): Unique ID of the episode (e.g., YouTube video ID or custom index)
+        podcast_title (str): Full title of the podcast or video
+        podcast_description (str): Description or caption of the episode
+        podcast_url (str): Direct URL to the episode (e.g., YouTube link)
+        podcast_summary (str): Markdown-formatted summary of the episode
+        length (str, optional): Duration of the episode in HH:MM or MM:SS format
+        is_new (bool, optional): Flag to mark the record as newly generated (default: True)
+
+    Example inserted document:
+        {
+            "episode_id": "856",
+            "podcast_title": "The Fastest-Growing Jobs Are AI Jobs",
+            "podcast_description": "Interview with Jon Krohn...",
+            "podcast_url": "https://www.youtube.com/watch?v=J5CDDV0QdlA",
+            "podcast_summary": "### Summary\n- Bullet point 1\n- Bullet point 2",
+            "length": "9:49",
+            "database_record_date": "2025-02-13T00:11:29.374+00:00",
+            "is_new": true,
+            "message": "Podcast summary successfully generated and stored in Mongo Database"
+        }
+    """
+    try:
+        client = MongoClient(os.getenv("mongodb_uri"), server_api=ServerApi("1"))
+        db = client.podcast_agent_results
+        collection = db.podcast_summaries
+
+        record = {
+            "episode_id": episode_id,
+            "podcast_title": podcast_title,
+            "podcast_description": podcast_description,
+            "podcast_url": podcast_url,
+            "podcast_summary": podcast_summary,
+            "length": length,
+            "database_record_date": datetime.datetime.now().isoformat(),
+            "is_new": is_new,
+            "message": "Podcast summary successfully generated and stored in Mongo Database"
+        }
+
+        collection.insert_one(record)
+
+    except Exception as e:
+        print(f"[MongoDB Insert Error] {e}", flush=True)
+
+tools = [search, transcribe, get_today_date, send_email, insert_to_mongodb]
 

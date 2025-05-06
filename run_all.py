@@ -1,7 +1,6 @@
 # from dotenv import load_dotenv
 # load_dotenv()  
 from build_agent import graph
-from mongo_functions import database_object
 import datetime
 import json
 from langchain_core.messages import HumanMessage
@@ -16,6 +15,6 @@ def generate(args):
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument('--message', type=str, default= "Superdatascience and Lex Fridman")
+    parser.add_argument('--message', type=str, default= "Superdatascience")
     args = parser.parse_args()
     events = generate(args)
