@@ -56,13 +56,11 @@ The application uses LangGraph to create a sophisticated agent workflow. Here's 
 | AI Models | TogetherAI | Content summarization |
 | Search | SerpAPI | YouTube search |
 | Transcription | YouTube Transcript API | Caption extraction |
-| API | Flask | REST interface |
 | UI | Streamlit | Web interface |
 
 ## 📂 Project Structure
 ```
 summarizer_container/
-│── app.py               # Flask REST API implementation
 │── build_agent.py       # LangChain agent configuration
 │── get_transcripts_tools.py  # YouTube search and transcript retrieval
 │── prompt.py           # Prompt templates and configurations
@@ -98,18 +96,12 @@ summarizer_container/
 
 ### Running the Application
 
-#### Option 1: Flask API
-```bash
-python app.py
-```
-Access the API at `http://localhost:5001`
-
-#### Option 2: Streamlit Interface
+#### Option 1: Streamlit Interface
 ```bash
 streamlit run streamlit_app.py
 ```
 
-#### Option 3: Docker Deployment
+#### Option 2: Docker Deployment
 ```bash
 docker build -t podcast-summarizer .
 docker run -p 5001:5001 podcast-summarizer
