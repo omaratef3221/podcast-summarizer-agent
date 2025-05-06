@@ -1,2 +1,5 @@
 .env
 summarizer_container/env_variables.py
+config.toml
+.DS_Store
+env_variables.py
