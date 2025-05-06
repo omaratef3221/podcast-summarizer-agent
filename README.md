@@ -44,7 +44,7 @@ The application uses LangGraph to create a sophisticated agent workflow. Here's 
   - Dynamic tool selection
   - Error recovery mechanisms
 - 🌐 **Dual Interface**: 
-  - RESTful API (Flask)
+  - Agent works as a cron job on railway.com
   - User-friendly web interface (Streamlit)
 
 ## 🛠️ Technology Stack
