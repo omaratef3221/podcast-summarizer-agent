@@ -15,3 +15,5 @@ google-auth-oauthlib==1.2.0
 google-auth-httplib2==0.2.0
 google-api-python-client==2.118.0
 gunicorn
+pinecone==6.0.2
+langchain-pinecone==0.2.5
