@@ -1,28 +1,44 @@
-# from dotenv import load_dotenv
-# load_dotenv()  
-
 import streamlit as st
-from langchain_core.messages import HumanMessage
-from build_agent import graph
+# from dotenv import load_dotenv
+from retreiver import retrieve_and_respond, llm
 
-st.set_page_config(page_title="Podcast Agent", page_icon="🎙️")
-st.markdown("## 🎧 Podcast Agent")
-st.markdown("This assistant summarizes podcast transcripts and answers related queries.")
+# load_dotenv()
 
-text = st.text_input("📝 Enter your message:", placeholder="Paste your podcast transcript or question here")
+st.set_page_config(page_title="🎧 Podcast Chatbot", page_icon="🎙️")
+st.title("🎧 Podcast Chatbot")
+st.caption("Ask questions based on summarized AI podcast episodes.")
 
-if st.button("🚀 Submit"):
-    if not text.strip():
-        st.warning("Please enter a message before submitting.")
-    else:
-        with st.spinner("Analyzing your message and fetching insights..."):
-            messages = [HumanMessage(content=text)]
-            events = graph.invoke({'messages': messages})
+# Chat history
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+        {"role": "assistant", "content": "Hi! Ask me anything about recent AI podcasts."}
+    ]
 
-        st.success("✅ Response generated and sent by email!")
+# Display previous messages
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        st.markdown(msg["content"])
 
-        with st.expander("📤 Agent Response", expanded=True):
-            st.markdown(events["messages"][-1].content, unsafe_allow_html=True)
-            st.markdown(events["messages"][-2].content, unsafe_allow_html=True)
+# User input
+user_input = st.chat_input("Ask a question...")
 
-        st.info("Tip: You can submit another message or paste a different podcast transcript to explore more.")
+if user_input:
+    st.chat_message("user").markdown(user_input)
+    st.session_state.messages.append({"role": "user", "content": user_input})
+
+    with st.chat_message("assistant"):
+        response_container = st.empty()
+        response_container.markdown("_Generating answer..._")
+
+        response, metadata_list = retrieve_and_respond(user_input, llm)
+        response_container.markdown(response)
+        st.session_state.messages.append({"role": "assistant", "content": response})
+
+    # Sidebar: metadata
+    if metadata_list:
+        st.sidebar.markdown("### 🔍 Retrieved Podcast Info")
+        for i, meta in enumerate(metadata_list, 1):
+            st.sidebar.markdown(f"**{i}. {meta.get('podcast_title', 'Untitled')}**")
+            st.sidebar.markdown(f"- 📅 Date: {meta.get('database_record_date', 'N/A')}")
+            st.sidebar.markdown("---")
+
