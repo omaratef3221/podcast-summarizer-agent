@@ -2,7 +2,7 @@ import streamlit as st
 # from dotenv import load_dotenv
 from retreiver import retrieve_and_respond, llm
 import toml
-config = toml.load("config.toml")
+config = toml.load(".streamlit/secrets.toml")
 import os
 # load_dotenv()
 
