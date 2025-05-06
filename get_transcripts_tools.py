@@ -2,7 +2,7 @@ import datetime
 import markdown2
 from youtube_transcript_api import YouTubeTranscriptApi
 from serpapi import GoogleSearch
-from langchain.tools.gmail.send_message import GmailSendMessage
+from langchain_community.tools import GmailSendMessage
 from langchain_community.agent_toolkits import GmailToolkit 
 import markdown2
 from langchain_community.tools.gmail.utils import build_resource_service, get_gmail_credentials
