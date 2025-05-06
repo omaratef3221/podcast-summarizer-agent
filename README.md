@@ -6,40 +6,58 @@
 ## 🏗️ Architecture
 The application uses LangGraph to create a sophisticated agent workflow. Here's how the components interact:
 
-![Agent Workflow](output.png)
+![Agent Workflow](Podcast%20Agent.drawio.png)
 
-### Graph Components
-1. **Input Handler**: Receives user queries and initializes the conversation
-2. **Agent Node**: Processes the input using TogetherAI and determines the next action
-3. **Tool Node**: Executes specific tools like:
-   - YouTube search
-   - Transcript retrieval
-   - Summary generation
-   - Database operations
-4. **Conditional Routing**: Determines whether to continue processing or return a final response
+### Core Components
+1. **Input Handler**
+   - Receives and processes user queries
+   - Initializes the conversation state
+   - Routes requests to appropriate components
 
-The graph architecture allows for:
-- Dynamic tool selection based on context
-- Seamless integration of multiple AI models
-- Efficient handling of long-running tasks
-- Error recovery and retry mechanisms
+2. **Agent Node**
+   - Powered by TogetherAI
+   - Processes input using advanced language models
+   - Makes intelligent decisions about next actions
+   - Maintains conversation context
 
-## ✨ Features
-- 🔍 **Automated Retrieval**: Searches for podcast episodes using SerpAPI
-- 📝 **Transcription & Summarization**: Extracts captions using YouTube Transcript API and summarizes content using TogetherAI
-- 🗄️ **MongoDB Integration**: Stores summaries and metadata in a NoSQL database
-- 🤖 **LangChain Integration**: Uses LangChain for building the agent workflow
-- 🌐 **Dual Interface**: Available both as a Flask API and Streamlit web application
+3. **Tool Node**
+   - YouTube Search: Finds relevant podcast episodes
+   - Transcript Retrieval: Extracts captions from videos
+   - Summary Generation: Creates concise episode summaries
+   - Database Operations: Manages data persistence
 
-## 🛠️ Tech Stack
-- 🐍 **Python** - Backend processing
-- 🤖 **LangChain** - Agent workflow and orchestration
-- 🍃 **MongoDB** - NoSQL database for storing summaries
-- 🔥 **TogetherAI** - AI model for summarization
-- 🔍 **SerpAPI** - YouTube search functionality
-- 🎥 **YouTube Transcript API** - Caption extraction
-- 🌐 **Flask** - REST API interface
-- 📊 **Streamlit** - Web interface
+4. **Conditional Routing**
+   - Determines workflow progression
+   - Handles error cases and retries
+   - Manages conversation flow
+
+## ✨ Key Features
+- 🔍 **Smart Search**: Automated podcast discovery using SerpAPI
+- 📝 **AI-Powered Processing**: 
+  - Automatic transcription via YouTube Transcript API
+  - Intelligent summarization using TogetherAI
+- 🗄️ **Data Management**: 
+  - MongoDB integration for persistent storage
+  - Efficient metadata management
+- 🤖 **Advanced Workflow**: 
+  - LangChain-powered agent system
+  - Dynamic tool selection
+  - Error recovery mechanisms
+- 🌐 **Dual Interface**: 
+  - RESTful API (Flask)
+  - User-friendly web interface (Streamlit)
+
+## 🛠️ Technology Stack
+| Component | Technology | Purpose |
+|-----------|------------|----------|
+| Backend | Python 3.8+ | Core processing |
+| AI Framework | LangChain | Agent orchestration |
+| Database | MongoDB | Data storage |
+| AI Models | TogetherAI | Content summarization |
+| Search | SerpAPI | YouTube search |
+| Transcription | YouTube Transcript API | Caption extraction |
+| API | Flask | REST interface |
+| UI | Streamlit | Web interface |
 
 ## 📂 Project Structure
 ```
@@ -58,9 +76,9 @@ summarizer_container/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.8 or higher
 - MongoDB instance
-- API keys for:
+- Required API Keys:
   - TogetherAI
   - SerpAPI
   - MongoDB
@@ -71,51 +89,59 @@ summarizer_container/
    ```bash
    pip install -r requirements.txt
    ```
-3. Set up environment variables in `.env` file
+3. Configure environment variables in `.env` file:
+   ```
+   TOGETHER_API_KEY=your_key_here
+   SERPAPI_API_KEY=your_key_here
+   MONGODB_URI=your_connection_string
+   ```
 
 ### Running the Application
 
-#### Flask API
+#### Option 1: Flask API
 ```bash
 python app.py
 ```
-The API will be available at `http://localhost:5001`
+Access the API at `http://localhost:5001`
 
-#### Streamlit Interface
+#### Option 2: Streamlit Interface
 ```bash
 streamlit run streamlit_app.py
 ```
 
-### Docker Deployment
+#### Option 3: Docker Deployment
 ```bash
 docker build -t podcast-summarizer .
 docker run -p 5001:5001 podcast-summarizer
 ```
 
-## 🔗 API Endpoints
+## 🔗 API Documentation
 
 ### `/podcast_agent`
 - **Method**: GET
-- **Query Parameters**: 
-  - `message`: The input message for the agent
-- **Response**: JSON containing the agent's response
+- **Purpose**: Process podcast-related queries
+- **Parameters**: 
+  - `message`: User input message
+- **Response**: JSON with agent's response
 
 ### `/healthcheck`
 - **Method**: GET
-- **Response**: JSON with application status
+- **Purpose**: Verify application status
+- **Response**: JSON with system status
 
-## 💰 Resource & Cost Breakdown
-| Resource     | Cost               | Purpose                                         |
-|-------------|--------------------|-------------------------------------------------|
-| 🤖 **TogetherAI** | Pay-per-use | AI model for summarization |
-| 🍃 **MongoDB** | Free tier available | Database storage |
-| 🔍 **SerpAPI** | Pay-per-use | YouTube search functionality |
+## 💰 Resource Costs
+| Service | Cost Model | Usage |
+|---------|------------|--------|
+| TogetherAI | Pay-per-use | AI model calls |
+| MongoDB | Free tier available | Data storage |
+| SerpAPI | Pay-per-use | Search operations |
 
-## 🔮 Future Enhancements
-- Enhanced error handling and retry mechanisms
-- Improved prompt engineering for better summaries
-- Additional podcast sources beyond YouTube
-- Caching layer for frequently accessed summaries
+## 🔮 Roadmap
+- [ ] Enhanced error handling
+- [ ] Improved summary quality
+- [ ] Additional podcast sources
+- [ ] Caching system
+- [ ] Performance optimizations
 
 ---
-🎯 This project aims to make podcast content more accessible through AI-powered summarization.
+🎯 **Mission**: Making podcast content more accessible through AI-powered summarization.
