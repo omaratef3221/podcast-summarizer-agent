@@ -1,8 +1,15 @@
 import streamlit as st
 # from dotenv import load_dotenv
 from retreiver import retrieve_and_respond, llm
-
+import toml
+config = toml.load("config.toml")
+import os
 # load_dotenv()
+
+os.environ["OPENAI_API_KEY"] = config["openai"]["api_key"]
+os.environ["PINECONE_API_KEY"] = config["pinecone"]["api_key"]
+os.environ["mongodb_uri"] = config["mongodb"]["uri"]
+
 
 st.set_page_config(page_title="🎧 Podcast Chatbot", page_icon="🎙️")
 st.title("🎧 Podcast Chatbot")
