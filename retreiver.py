@@ -4,7 +4,7 @@ from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone
 import os
 import toml
-config = toml.load("config.toml")
+config = toml.load(".streamlit/secrets.toml")
 import os
 # load_dotenv()
 
