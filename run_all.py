@@ -5,7 +5,7 @@ import datetime
 import json
 from langchain_core.messages import HumanMessage
 import argparse
-from create_rag_pinecone import insert_rag, get_latest_podcast
+from create_rag_pinecone import insert_to_vector_db, get_latest_podcast
 
 
 def generate(args):
@@ -21,5 +21,5 @@ if __name__ == '__main__':
     events = generate(args)
     latest_podcast = get_latest_podcast()
     latest_podcast = list(latest_podcast)[0]
-    insert_rag(latest_podcast)
+    insert_to_vector_db(latest_podcast)
 
