@@ -3,6 +3,14 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone
 import os
+import toml
+config = toml.load("config.toml")
+import os
+# load_dotenv()
+
+os.environ["OPENAI_API_KEY"] = config["openai"]["api_key"]
+os.environ["PINECONE_API_KEY"] = config["pinecone"]["api_key"]
+os.environ["mongodb_uri"] = config["mongodb"]["uri"]
 
 # from dotenv import load_dotenv
 # load_dotenv()
