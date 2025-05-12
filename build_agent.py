@@ -10,6 +10,9 @@ from langgraph.prebuilt import ToolNode
 from langgraph.prebuilt import tools_condition 
 from prompt import system_message
 import os
+from langchain_core.runnables import RunnableConfig
+config = RunnableConfig(recursion_limit=15)
+
 llm = ChatOpenAI(
     model="o4-mini",
     temperature=1,
