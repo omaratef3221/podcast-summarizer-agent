@@ -7,7 +7,7 @@ from langchain_core.messages import HumanMessage
 import argparse
 from create_rag_pinecone import insert_to_vector_db, get_latest_podcast
 from langchain_core.runnables import RunnableConfig
-config = RunnableConfig(recursion_limit=15)
+config = RunnableConfig(recursion_limit=35)
 
 def generate(args):
     my_message = args.message
